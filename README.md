@@ -14,4 +14,4 @@ e   | Mayra     (12 marks)
 Camillia (15 marks)  
 
 ## question 4
-Mayra and Rudaba?  
+Mayra and Rudaba? (15 marks)
