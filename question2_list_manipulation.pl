@@ -23,6 +23,13 @@ listMap([KLHead | KLTail], [VMHead | VMTail], Key, Value) :- listMap(KLTail, VMT
 %%%%% RULE: encodeList
 % Add the rule(s) for part b below
 
+% unfinished
+% encodeList(List, MapKeysList, MapValuesList, EncodedList)
+
+% encodeList([b,b],[a,b],[1,2],[2,2]) := listMap([a,b],[1,2],b,Value), 2=Value
+encodeList([HList | TList], MapKeysList, MapValuesList, [HEncodedList | TEncodedList]) :- listMap(MapKeysList,MapValuesList,HList,Value), HEncodedList = Value.
+encodeList([HList | TList], MapKeysList, MapValuesList, [HEncodedList | TEncodedList]) :- encodeList(TList, MapKeysList, MapValuesList, TEncodedList).
+
 
 %%%%% RULE: consecutiveCount
 %  Add the rule(s) for part c below 
