@@ -14,6 +14,11 @@
 %%%%% RULE: listMap
 % Add the rule(s) for part a below
 
+% base_case: first element is a match for key and value
+listMap([KLHead | KLTail], [VMHead | VMTail], Key, Value) :- Key = KLHead, Value = VMHead. 
+
+% recursive_case: elements after the first are a match for key and value
+listMap([KLHead | KLTail], [VMHead | VMTail], Key, Value) :- listMap(KLTail, VMTail, Key, Value).
 
 %%%%% RULE: encodeList
 % Add the rule(s) for part b below
