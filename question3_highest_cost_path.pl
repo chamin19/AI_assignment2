@@ -14,13 +14,16 @@
 %%%%% Helper Programs
 % Put any helper programs in the space below
 
+append([ ],List,List).
+append([X | List1],List2,[X | Result]) :- append(List1,List2,Result). 
+
 % highCostPath(Tree, PathCost, PathList) 
 
 % base case - tree is empty or has one node
 highestCostPath(tree3(Name, LeftCost, none, MiddleCost, none, RightCost, none), PathCost, PathList) :- Left = none, Right = none, PathCost = 0, PathList=[Name].
 
 % recursive case 
-% highestCostPath(tree3(Name, LeftCost, Left, MiddleCost, Middle, RightCost, Right), PathCost, PathList) :- 
+highestCostPath(tree3(Name, LeftCost, Left, MiddleCost, Middle, RightCost, Right), PathCost, PathList) :- append([Name], PathList, Result), PathCost = Left + PathCost
 
 
 
