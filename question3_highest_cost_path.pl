@@ -16,10 +16,7 @@
 
 % highCostPath(Tree, PathCost, PathList) 
 
-% base case - tree is empty
-highestCostPath(tree3(none, LeftCost, none, MiddleCost, none, RightCost, none), PathCost, PathList) :- PathCost = 0, PathList=[].
-
-% base case - tree has one node
+% base case - tree is empty or has one node
 highestCostPath(tree3(Name, LeftCost, none, MiddleCost, none, RightCost, none), PathCost, PathList) :- Left = none, Right = none, PathCost = 0, PathList=[Name].
 
 % recursive case 
