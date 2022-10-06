@@ -14,6 +14,18 @@
 %%%%% Helper Programs
 % Put any helper programs in the space below
 
+% highCostPath(Tree, PathCost, PathList) 
+
+% base case - tree is empty
+highestCostPath(tree3(none, LeftCost, none, MiddleCost, none, RightCost, none), PathCost, PathList) :- PathCost = 0, PathList=[].
+
+% base case - tree has one node
+highestCostPath(tree3(Name, LeftCost, none, MiddleCost, none, RightCost, none), PathCost, PathList) :- Left = none, Right = none, PathCost = 0, PathList=[Name].
+
+% recursive case 
+% highestCostPath(tree3(Name, LeftCost, Left, MiddleCost, Middle, RightCost, Right), PathCost, PathList) :- 
+
+
 
 %%%%% RULE: highestCostPath
 % Add the rule(s) for highestCostPath below
@@ -27,20 +39,7 @@
 %
 % You may also add additional tree below for testing in this way, though we will not mark them.
 
-testTree(1, 
-    tree3(a,  % The root node has name a
-            2, tree3(b, % Left child of a is b and can be reached with cost 2 
-                    3, tree3(e,0, none, 0, none, 0, none),   % Left child of b is e. It is a leaf node
-                    5, tree3(f, 0, none, 0, none, 0, none),   % Middle child of b is f. It is a leaf node
-                    0, none  % There is no right childe of b
-                    ),
-            3, tree3(c, 0, none, 0, none, 0, none),  % Middle child of a is c. It is a leaf node
-            1, tree3(d,   % Right child of a is d
-                    2, tree3(g, 0, none, 0, none,   % Left child of d is g. It has no left or middle child
-                            1, tree3(h, 0, none, 0, none, 0, none)),   % The right child of g is h. It is a leaf node
-                    0, none, 0, none  % d has no middle or right children
-                    )
-        )
-).
+tree3(none,0,none,0,none,0,none)
+
 %%%%% END
 % DO NOT PUT ANY LINES BELOW
