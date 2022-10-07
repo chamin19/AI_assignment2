@@ -19,11 +19,12 @@ append([X | List1],List2,[X | Result]) :- append(List1,List2,Result).
 
 % highCostPath(Tree, PathCost, PathList) 
 
-% base case - tree is empty or has one node
-highestCostPath(tree3(Name, LeftCost, none, MiddleCost, none, RightCost, none), PathCost, PathList) :- Left = none, Right = none, PathCost = 0, PathList=[Name].
+% base case - node has no children
+highestCostPath(tree3(Name, LeftCost, none, MiddleCost, none, RightCost, none), PathCost, PathList) :- append([Name], PathList, Result), PathList is Result, PathCost = PathCost + 0.
 
 % recursive case 
-highestCostPath(tree3(Name, LeftCost, Left, MiddleCost, Middle, RightCost, Right), PathCost, PathList) :- append([Name], PathList, Result), PathCost = Left + PathCost
+highestCostPath(tree3(Name, LeftCost, Left, MiddleCost, Middle, RightCost, Right), PathCost, PathList) :- 
+append([Name], PathList, Result), PathCostLeft = Left + PathCost, PathCostMiddle = Right + PathCostMiddle, PathCostRight = PathCost + Right, highestCostPath(tree3(Left),PathCostLeft, PathListLeft) 
 
 
 
