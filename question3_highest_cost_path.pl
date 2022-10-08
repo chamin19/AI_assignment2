@@ -37,12 +37,12 @@ highestCostPath(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, Lis
 costPaths(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), 0, [], [],[]).
 
 costPaths(tree3(Name, 0, none, 0, none, 0, none), Cost, List, Costs, Lists) :- 
-write([Cost, Name | [List | Lists]]), nl. 
+write([Cost, Name | List]).
 
 costPaths(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, List, Costs, Lists) :-
-(Left=none ; C1 is LCost + Cost, costPaths(Left, C1, [ Name | List], Costs, Lists)), 
-(Middle=none ; C2 is MCost + Cost, costPaths(Middle, C2, [ Name | List], Costs, Lists)),
-(Right=none ; C3 is RCost + Cost, costPaths(Right, C3, [ Name | List], Costs, Lists)).
+(Left=none ; C1 is LCost + Cost, costPaths(Left, C1, [ Name | List], Costs, Lists)), nl,
+(Middle=none ; C2 is MCost + Cost, costPaths(Middle, C2, [ Name | List], Costs, Lists)), nl,
+(Right=none ; C3 is RCost + Cost, costPaths(Right, C3, [ Name | List], Costs, Lists)), nl.
 
 %%%%% TESTS
 % Below is a test tree, based on the diagram in the assignment
