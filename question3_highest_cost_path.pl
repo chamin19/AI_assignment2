@@ -30,14 +30,16 @@ maxNode(LCost, Left, MCost, Middle, RCost, Right, MaxCost, MaxBranch, MaxNode) :
 maxNode(LCost, Left, MCost, Middle, RCost, Right, MaxCost, MaxBranch, MaxNode) :- RCost >  MCost, RCost >  LCost, MaxCost = RCost, nodeHead(Right, RNode), MaxBranch = Right, MaxNode = RNode.
 maxNode(LCost, Left, MCost, Middle, RCost, Right, MaxCost, MaxBranch, MaxNode) :- MCost >  RCost, MCost >  LCost, MaxCost = MCost, nodeHead(Middle, MNode), MaxBranch = Middle, MaxNode = MNode.
 
-%%%%% RULE: highestCostPath
+%%%%% RULE: highestCostPaths
 % Add the rule(s) for highestCostPath below
 
 highestCostPath(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, List) :- 
 costPaths(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), 0, [], [],[]).
 
 costPaths(tree3(Name, 0, none, 0, none, 0, none), Cost, List, Costs, Lists) :- 
-write([Cost, Name | List]).
+reverse([Name | List],RevList),
+CompleteList = [Cost | RevList],
+write(CompleteList).
 
 costPaths(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, List, Costs, Lists) :-
 (Left=none ; C1 is LCost + Cost, costPaths(Left, C1, [ Name | List], Costs, Lists)), nl,
