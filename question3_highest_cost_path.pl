@@ -30,21 +30,30 @@ maxNode(LCost, Left, MCost, Middle, RCost, Right, MaxCost, MaxBranch, MaxNode) :
 maxNode(LCost, Left, MCost, Middle, RCost, Right, MaxCost, MaxBranch, MaxNode) :- RCost >  MCost, RCost >  LCost, MaxCost = RCost, nodeHead(Right, RNode), MaxBranch = Right, MaxNode = RNode.
 maxNode(LCost, Left, MCost, Middle, RCost, Right, MaxCost, MaxBranch, MaxNode) :- MCost >  RCost, MCost >  LCost, MaxCost = MCost, nodeHead(Middle, MNode), MaxBranch = Middle, MaxNode = MNode.
 
+%find Head
+findHeadTail([Head | Tail],H,T) :- H = Head, T = Tail.
+
 %%%%% RULE: highestCostPaths
 % Add the rule(s) for highestCostPath below
 
+maxCost(L1,L2,L3,Result) :- 
+
 highestCostPath(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, List) :- 
-costPaths(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), 0, [], [],[]).
+costPaths(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), 0, [], Costs,Lists), 
+findHeadTail(Lists,H,T), Cost = H, List = T.
 
 costPaths(tree3(Name, 0, none, 0, none, 0, none), Cost, List, Costs, Lists) :- 
 reverse([Name | List],RevList),
 CompleteList = [Cost | RevList],
-write(CompleteList).
+Costs = [Cost | RevList].
 
 costPaths(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, List, Costs, Lists) :-
-(Left=none ; C1 is LCost + Cost, costPaths(Left, C1, [ Name | List], Costs, Lists)), nl,
-(Middle=none ; C2 is MCost + Cost, costPaths(Middle, C2, [ Name | List], Costs, Lists)), nl,
-(Right=none ; C3 is RCost + Cost, costPaths(Right, C3, [ Name | List], Costs, Lists)), nl.
+C1 is LCost + Cost, C2 is MCost + Cost, C3 is RCost + Cost, 
+(Left=none ; write(1), costPaths(Left, C1, [ Name | List], Costs1, Lists), write(Costs1)), nl,
+(Middle=none ; write(2), costPaths(Middle, C2, [ Name | List], Costs2, Lists), write(Costs2)), nl,
+(Right=none ; write(3), costPaths(Right, C3, [ Name | List], Costs3, Lists), write(Costs3)), nl, 
+maxCost(Costs1,Costs2,Costs,Result),
+Lists = Result.  
 
 %%%%% TESTS
 % Below is a test tree, based on the diagram in the assignment
