@@ -31,7 +31,7 @@ Costs = [Cost | RevList].
 costPaths(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, List, Costs, Lists) :-
 C1 is LCost + Cost, C2 is MCost + Cost, C3 is RCost + Cost, 
 (Left=none, Costs1=[0,none]   ; costPaths(Left, C1, [ Name | List ], Costs1, Lists1)), write('\n1 '), write(Costs1), 
-write(' Left: '), write(Left), %location of error, L
+write(' Left: '), write(Left), 
 (Middle=none, Costs2=[0,none] ; costPaths(Middle, C2, [ Name | List ], Costs2, Lists2)), write('\n2 '), write(Costs2),
 write(' Middle: '), write(Middle),
 (Right=none, Costs3=[0,none]  ; costPaths(Right, C3, [ Name | List ], Costs3, Lists3)), write('\n3 '), write(Costs3),
@@ -44,9 +44,16 @@ write('\nLists: '),write(Lists), nl.
 % Add the rule(s) for highestCostPath below
 
 highestCostPath(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, List) :- 
-costPaths(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), 0, [], Costs,Lists),
-findHeadTail(Lists,H,T), Cost = H, List = T,
-write('\n---final---:\n'), write(Cost), write(List).
+write('\nA\n'),(Left=none, Lists1=[0,none]  ; costPaths(Left, LCost, [Name], Costs1, Lists1)),
+write('\nB\n'),(Middle=none, Lists2=[0,none]; costPaths(Middle, MCost, [Name], Costs2, Lists2)),
+write('\nC\n'),(Right=none, Lists3=[0,none] ; costPaths(Right, RCost, [Name], Costs3, Lists3)),
+
+%if Lists has not been assigned, make Lists = Costs: 
+Lists1 = Costs1, Lists2 = Costs2, Lists3 = Costs3,
+write('\nL1: '), write(Lists1), write('\nL2: '), write(Lists2), write('\nL3: '), write(Lists3),
+maxCost(Lists1,Lists2,Lists3,Result), 
+findHeadTail(Result,H,T), Cost = H, List = T.
+
 
 %%%%% TESTS
 % Below is a test tree, based on the diagram in the assignment
@@ -56,8 +63,51 @@ write('\n---final---:\n'), write(Cost), write(List).
 %
 % You may also add additional tree below for testing in this way, though we will not mark them.
 
-% does not work
-testTree(1, 
+% works------------------------
+% ?- testTree(1, X), highestCostPath(X, Cost, Path).
+testTree(1, tree3(none,0,none,0,none,0,none)).
+
+% works------------------------
+% ?- testTree(2, X), highestCostPath(X, Cost, Path).
+testTree(2, tree3(a, 1,tree3(b,0,none,0,none,0,none), 2,tree3(c,0,none,0,none,0,none), 3,tree3(d,0,none,0,none,0,none))).
+%          a   
+%    1/   2|   \3
+%    b     c    d
+
+% works------------------------
+% ?- testTree(4, X), highestCostPath(X, Cost, Path).
+testTree(4, 
+        tree3(a, 
+                2, tree3(b, 0,none, 1, tree3(e, 0,none, 0,none, 0,none), 0,none),
+                6, tree3(c, 2,tree3(h, 0,none, 0,none, 0,none), 0,none, 0,none),
+                3, tree3(d, 0, none, 4, tree3(f, 0,none, 0,none, 0,none), 2, tree3(g, 0,none, 0,none, 0,none))                
+        )
+).
+%               a
+%       2/      |6      \3
+%       b       c        d
+%      1|       |2      4|  \2
+%       e       h        f   g
+
+
+% works------------------------
+% ?- testTree(3, X), highestCostPath(X, Cost, Path).
+testTree(3, 
+        tree3(a, 
+                2, tree3(b, 0,none, 1, tree3(e, 0,none, 0,none, 0,none), 0,none),
+                6, tree3(c, 0,none, 0,none, 0,none),
+                3, tree3(d, 0, none, 4, tree3(f, 0,none, 0,none, 0,none), 2, tree3(g, 0,none, 0,none, 0,none))                
+        )
+).
+%               a
+%       2/      |6      \3
+%       b       c        d
+%      1|               4|  \2
+%       e               f    g
+
+% does not work------------------------
+% ?- testTree(5, X), highestCostPath(X, Cost, Path).
+testTree(5, 
     tree3(a,  % The root node has name a
             2, tree3(b, % Left child of a is b and can be reached with cost 2 
                     3, tree3(e,0, none, 0, none, 0, none),   % Left child of b is e. It is a leaf node
@@ -73,29 +123,6 @@ testTree(1,
         )
 ).
 
-% works
-testTree(2, tree3(none,0,none,0,none,0,none)).
-
-% works
-testTree(3, tree3(a, 1,tree3(b,0,none,0,none,0,none), 2,tree3(c,0,none,0,none,0,none), 3,tree3(d,0,none,0,none,0,none))).
-%          a   
-%    1/   2|   \3
-%    b     c    d
-
-% does not work
-testTree(4, 
-        tree3(a, 
-                2, tree3(b, 0,none, 1, tree3(e, 0,none, 0,none, 0,none), 0,none),
-                6, tree3(c, 0,none, 0,none, 0,none),
-                3, tree3(d, 0, none, 4, tree3(f, 0,none, 0,none, 0,none), 2, tree3(g, 0,none, 0,none, 0,none))                
-        )
-).
-%               a
-%       2/      |6      \3
-%       b       c        d
-%      1|               4|  \2
-%       e               f    g
-
 %%%%% END
 % DO NOT PUT ANY LINES BELOW
 %highestCostPath(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, List) :- 
@@ -106,3 +133,9 @@ testTree(4,
 %Lists1 = Costs1, Lists2 = Costs2, Lists3 = Costs3,
 %write('\nL1: '), write(Lists1), write('\nL2: '), write(Lists2), write('\nL3: '), write(Lists3),
 %write('\nerror here '),maxCost(Lists1,Lists2,Lists3,Result), 
+
+
+%highestCostPath(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, List) :- 
+%costPaths(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), 0, [], Costs,Lists),
+%findHeadTail(Lists,H,T), Cost = H, List = T,
+%write('\n---final---:\n'), write(Cost), write(List).
