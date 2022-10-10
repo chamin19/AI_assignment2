@@ -14,52 +14,39 @@
 %%%%% Helper Programs
 % Put any helper programs in the space below
 
-% append two lists together
-appendList([ ],List,List). 
-appendList([X | List1],List2,[X | Result]) :- appendList(List1,List2,Result). 
-
-% find maximum in list
-maxim([Max | []], Max).
-maxim([Head, Body | Tail], Max) :- Head >= Body, maxim([Head | Tail], Max).
-maxim([Head, Body | Tail], Max) :- Head < Body, maxim([Body | Tail], Max).
-
-nodeHead(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Head) :- Head = Name.
-
-% find maxnode
-maxNode(LCost, Left, MCost, Middle, RCost, Right, MaxCost, MaxBranch, MaxNode) :- LCost >= MCost, LCost >= RCost, MaxCost = LCost, nodeHead(Left, LNode), MaxBranch = Left, MaxNode = LNode.
-maxNode(LCost, Left, MCost, Middle, RCost, Right, MaxCost, MaxBranch, MaxNode) :- RCost >  MCost, RCost >  LCost, MaxCost = RCost, nodeHead(Right, RNode), MaxBranch = Right, MaxNode = RNode.
-maxNode(LCost, Left, MCost, Middle, RCost, Right, MaxCost, MaxBranch, MaxNode) :- MCost >  RCost, MCost >  LCost, MaxCost = MCost, nodeHead(Middle, MNode), MaxBranch = Middle, MaxNode = MNode.
-
-%find Head
+%finds the head and tail of a list
 findHeadTail([Head | Tail],H,T) :- H = Head, T = Tail.
 
-%%%%% RULE: highestCostPaths
-% Add the rule(s) for highestCostPath below
-
+% finds the maximum path between 3 paths
 maxCost([H1 | L1],[H2 | L2],[H3 | L3],Result) :- 
-%write('\nH1'),write(H1), write('\nH2'),write(H2), write('\nH3'),write(H3),
 (not(L1 = [none]), H1 >= H2, H1 >= H3, Result = [H1 | L1]);
 (not(L2 = [none]), H2 >  H1, H2 >  H3, Result = [H2 | L2]); 
 (not(L3 = [none]), H3 >  H1, H3 >  H2, Result = [H3 | L3]).
 
-highestCostPath(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, List) :- 
-% call recursive function 3 times from the start
-costPaths(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), 0, [], Costs1,Lists1), 
-write('final destination:\n -Costs'), write(Costs), write('\n -Lists '), write(Lists), write('\n'), 
-findHeadTail(Lists,H,T), Cost = H, List = T.
-
+% recursive program that finds the path with the longest weight 
 costPaths(tree3(Name, 0, none, 0, none, 0, none), Cost, List, Costs, Lists) :- 
-reverse([Name | List],RevList),
-CompleteList = [Cost | RevList],
+reverse([Name | List], RevList),
 Costs = [Cost | RevList].
 
 costPaths(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, List, Costs, Lists) :-
 C1 is LCost + Cost, C2 is MCost + Cost, C3 is RCost + Cost, 
-(Left=none, Costs1=[0,none]  ; costPaths(Left, C1, [ Name | List], Costs1, Lists1)), write('\n1 '), write(Lists1), write(' '), write(Costs1), 
-(Middle=none, Costs2=[0,none]; costPaths(Middle, C2, [ Name | List], Costs2, Lists2)), write('\n2 '), write(Lists2), write(' '), write(Costs2), 
-(Right=none, Costs3=[0,none] ; costPaths(Right, C3, [ Name | List], Costs3, Lists3)), write('\n3 '), write(Lists3), write(' '), write(Costs3), 
+(Left=none, Costs1=[0,none]   ; costPaths(Left, C1, [ Name | List ], Costs1, Lists1)), write('\n1 '), write(Costs1), 
+write(' Left: '), write(Left), %location of error, L
+(Middle=none, Costs2=[0,none] ; costPaths(Middle, C2, [ Name | List ], Costs2, Lists2)), write('\n2 '), write(Costs2),
+write(' Middle: '), write(Middle),
+(Right=none, Costs3=[0,none]  ; costPaths(Right, C3, [ Name | List ], Costs3, Lists3)), write('\n3 '), write(Costs3),
+write(' Right: '), write(Right),
 maxCost(Costs1,Costs2,Costs3,Result), Lists = Result,
-write('\nLists'),write(Lists), nl.  
+write('\nLists: '),write(Lists), nl.  
+
+
+%%%%% RULE: highestCostPaths
+% Add the rule(s) for highestCostPath below
+
+highestCostPath(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, List) :- 
+costPaths(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), 0, [], Costs,Lists),
+findHeadTail(Lists,H,T), Cost = H, List = T,
+write('\n---final---:\n'), write(Cost), write(List).
 
 %%%%% TESTS
 % Below is a test tree, based on the diagram in the assignment
@@ -69,6 +56,7 @@ write('\nLists'),write(Lists), nl.
 %
 % You may also add additional tree below for testing in this way, though we will not mark them.
 
+% does not work
 testTree(1, 
     tree3(a,  % The root node has name a
             2, tree3(b, % Left child of a is b and can be reached with cost 2 
@@ -85,17 +73,20 @@ testTree(1,
         )
 ).
 
+% works
 testTree(2, tree3(none,0,none,0,none,0,none)).
 
+% works
 testTree(3, tree3(a, 1,tree3(b,0,none,0,none,0,none), 2,tree3(c,0,none,0,none,0,none), 3,tree3(d,0,none,0,none,0,none))).
 %          a   
 %    1/   2|   \3
 %    b     c    d
 
+% does not work
 testTree(4, 
         tree3(a, 
-                6, tree3(c, 0,none, 0,none, 0,none),
                 2, tree3(b, 0,none, 1, tree3(e, 0,none, 0,none, 0,none), 0,none),
+                6, tree3(c, 0,none, 0,none, 0,none),
                 3, tree3(d, 0, none, 4, tree3(f, 0,none, 0,none, 0,none), 2, tree3(g, 0,none, 0,none, 0,none))                
         )
 ).
@@ -107,3 +98,11 @@ testTree(4,
 
 %%%%% END
 % DO NOT PUT ANY LINES BELOW
+%highestCostPath(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, List) :- 
+%write('\nA\n'),(Left=none, Lists1=[0,none]  ; costPaths(Left, LCost, [Name], Costs1, Lists1)),
+%write('\nB\n'),(Middle=none, Lists2=[0,none]; costPaths(Middle, MCost, [Name], Costs2, Lists2)),
+%write('\nC\n'),(Right=none, Lists3=[0,none] ; costPaths(Right, RCost, [Name], Costs3, Lists3)),
+%if Lists has not been assigned, make Lists = Costs: 
+%Lists1 = Costs1, Lists2 = Costs2, Lists3 = Costs3,
+%write('\nL1: '), write(Lists1), write('\nL2: '), write(Lists2), write('\nL3: '), write(Lists3),
+%write('\nerror here '),maxCost(Lists1,Lists2,Lists3,Result), 
