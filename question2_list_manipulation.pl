@@ -19,7 +19,7 @@ listMap([KLHead | KLTail], [VMHead | VMTail], Key, Value) :- listMap(KLTail, VMT
 
 %%%%% RULE: encodeList
 % Add the rule(s) for part b below
-encodeList([HList | TList], MapKeysList, MapValuesList, EncodedList) :- TList = [], listMap(MapKeysList,MapValuesList,HList,Value), EncodedList = Value.
+encodeList([HList | TList], MapKeysList, MapValuesList, EncodedList) :- TList = [], listMap(MapKeysList,MapValuesList,HList,Value), EncodedList = [Value].
 
 encodeList([HList | TList], MapKeysList, MapValuesList, EncodedList) :- 
 listMap(MapKeysList,MapValuesList,HList,Value), 
