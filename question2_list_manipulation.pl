@@ -39,10 +39,10 @@ listMap(MapKeysList,MapValuesList,HList,Value), append([Value], EncodedValue, En
 consecutiveCount([H],0).
 
 % recursive case: increment counter when consecutive elements %are equal
-consecutiveCount([H,W|T],N) :- H=W, consecutiveCount([W|T],N1), N is N1+1.
+consecutiveCount([H,W|T],Count) :- H=W, consecutiveCount([W|T],N1), Count is N1+1.
 
 % recursive case: the counter does not increment when %consecutive elements are not equal
-consecutiveCount([H,W|T],N) :- not(H=W), consecutiveCount([W|T],N).
+consecutiveCount([H,W|T],Count) :- not(H=W), consecutiveCount([W|T],Count).
 
 %%%%% RULE: splitOnInt
 %  Add the rule(s) for part d below 
