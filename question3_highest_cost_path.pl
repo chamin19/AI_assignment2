@@ -42,7 +42,7 @@ write('\nLists: '),write(Lists), nl.
 
 %%%%% RULE: highestCostPaths
 % Add the rule(s) for highestCostPath below
-
+highestCostPath(tree3(Name, 0, none, 0, none, 0, none), Cost, List) :- Cost = 0, not(Name=none), List = [Name].
 highestCostPath(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, List) :- 
 write('\nA\n'),(Left=none, Lists1=[0,none]  ; costPaths(Left, LCost, [Name], Costs1, Lists1)),
 write('\nB\n'),(Middle=none, Lists2=[0,none]; costPaths(Middle, MCost, [Name], Costs2, Lists2)),
@@ -62,6 +62,9 @@ findHeadTail(Result,H,T), Cost = H, List = T.
 % ?- testTree(1, X), highestCostPath(X, Cost, Path).
 %
 % You may also add additional tree below for testing in this way, though we will not mark them.
+
+testTree(6, tree3(a,0,none,0,none,0,none)).
+
 
 % works------------------------
 % ?- testTree(1, X), highestCostPath(X, Cost, Path).
