@@ -27,7 +27,6 @@ append([Value], EncodedValue, EncodedList),
 encodeList(TList, MapKeysList, MapValuesList, EncodedValue).
 
 %%%%% RULE: consecutiveCount 
-%% not done yet
 %  Add the rule(s) for part c below 
 % base case: where there is only one element in the list the %program will terminate counting
 consecutiveCount([H],0).
