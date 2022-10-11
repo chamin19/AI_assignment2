@@ -32,12 +32,14 @@ encodeList([HList | TList], MapKeysList, MapValuesList, EncodedList) :-
 write('\n'),write(HList), write(' '),write(EncodedValue),
 listMap(MapKeysList,MapValuesList,HList,Value), append([Value], EncodedValue, EncodedList), encodeList(TList, MapKeysList, MapValuesList, EncodedValue).
 
-%%%%% RULE: consecutiveCount
+%%%%% RULE: consecutiveCount 
+%% not done yet
 %  Add the rule(s) for part c below 
 
 
 %%%%% RULE: splitOnInt
 %  Add the rule(s) for part d below 
+% partially works
 
 % split of an empty list is two empty lists
 splitOnInt([], _, [], []).
