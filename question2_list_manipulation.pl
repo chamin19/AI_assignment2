@@ -57,7 +57,7 @@ splitOnInt([H | T], V, NoLargerList, [H | ST]) :- not(H = V), H > V, splitOnInt(
 
 %% incAverage uses predefined predicates sum to calculate the sumation and length  to find the number of element of the given list to calculate the average
 
-incAverage([H|T], Average, NumElements) :- length([H|T], L), NumElements is L, sum([H|T], S), Average is (S//L).
+incAverage([H|T], Average, NumElements) :- length([H|T], L), NumElements is L, sum([H|T], S), Average is S/L.
 
 %%%%% END
 % DO NOT PUT ANY ATOMIC PROPOSITIONS OR LINES BELOW
