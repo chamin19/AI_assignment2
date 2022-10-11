@@ -28,27 +28,27 @@ revAux([ ], L, L).
 revAux([H|L1], L2, L3) :- revAux(L1, [H|L2], L3).
 
 % recursive program that finds the path with the longest weight 
-costPaths(tree3(Name, 0, none, 0, none, 0, none), Cost, List, Costs, Lists) :- 
-reverseList([Name | List], RevList),
-Costs = [Cost | RevList].
+costPaths(tree3(Name, 0, none, 0, none, 0, none), Cost, Path, ListA, ListB) :- 
+reverseList([Name | Path], RevList),
+ListA = [Cost | RevList].
 
-costPaths(none, Cost, List, Costs, Lists) :- Costs=[0,none].
-costPaths(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, List, Costs, Lists) :-
+costPaths(none, Cost, Path, ListA, ListB) :- ListA = [0,none].
+costPaths(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, Path, ListA, ListB) :-
 C1 is LCost + Cost, C2 is MCost + Cost, C3 is RCost + Cost, 
-(costPaths(Left, C1, [ Name | List ], Costs1, Lists1)), 
-(costPaths(Middle, C2, [ Name | List ], Costs2, Lists2)), 
-(costPaths(Right, C3, [ Name | List ], Costs3, Lists3)), 
-maxCost(Costs1,Costs2,Costs3,Result), Lists = Result.  
+(costPaths(Left, C1, [ Name | Path ], ListA1, ListB1)), 
+(costPaths(Middle, C2, [ Name | Path ], ListA2, ListB2)), 
+(costPaths(Right, C3, [ Name | Path ], ListA3, ListB3)), 
+maxCost(ListA1,ListA2,ListA3,Result), ListB = Result.  
 
 %%%%% RULE: highestCostPaths
 % Add the rule(s) for highestCostPath below
-highestCostPath(tree3(Name, 0, none, 0, none, 0, none), Cost, List) :- Cost = 0, not(Name=none), List = [Name].
-highestCostPath(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, List) :- 
-(costPaths(Left, LCost, [Name], Costs1, Lists1)),
-(costPaths(Middle, MCost, [Name], Costs2, Lists2)),
-(costPaths(Right, RCost, [Name], Costs3, Lists3)),
-Lists1 = Costs1, Lists2 = Costs2, Lists3 = Costs3, 
-maxCost(Lists1,Lists2,Lists3,Result), findHeadTail(Result,H,T), Cost = H, List = T.
+highestCostPath(tree3(Name, 0, none, 0, none, 0, none), Cost, Path) :- Cost = 0, not(Name=none), Path = [Name].
+highestCostPath(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, Path) :- 
+(costPaths(Left, LCost, [Name], ListA1, ListB1)),
+(costPaths(Middle, MCost, [Name], ListA2, ListB2)),
+(costPaths(Right, RCost, [Name], ListA3, ListB3)),
+ListB1 = ListA1, ListB2 = ListA2, ListB3 = ListA3, 
+maxCost(ListB1,ListB2,ListB3,Result), findHeadTail(Result,H,T), Cost = H, Path = T.
 
 %%%%% TESTS
 % Below is a test tree, based on the diagram in the assignment
