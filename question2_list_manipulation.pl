@@ -35,7 +35,14 @@ listMap(MapKeysList,MapValuesList,HList,Value), append([Value], EncodedValue, En
 %%%%% RULE: consecutiveCount 
 %% not done yet
 %  Add the rule(s) for part c below 
+% base case: where there is only one element in the list the %program will terminate counting
+consecutiveCount([H],0).
 
+% recursive case: increment counter when consecutive elements %are equal
+consecutiveCount([H,W|T],N) :- H=W, consecutiveCount([W|T],N1), N is N1+1.
+
+% recursive case: the counter does not increment when %consecutive elements are not equal
+consecutiveCount([H,W|T],N) :- not(H=W), consecutiveCount([W|T],N).
 
 %%%%% RULE: splitOnInt
 %  Add the rule(s) for part d below 
