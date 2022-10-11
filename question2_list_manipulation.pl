@@ -32,17 +32,35 @@ encodeList([HList | TList], MapKeysList, MapValuesList, EncodedList) :-
 write('\n'),write(HList), write(' '),write(EncodedValue),
 listMap(MapKeysList,MapValuesList,HList,Value), append([Value], EncodedValue, EncodedList), encodeList(TList, MapKeysList, MapValuesList, EncodedValue).
 
-%%%%% RULE: consecutiveCount
+%%%%% RULE: consecutiveCount 
+%% not done yet
 %  Add the rule(s) for part c below 
 
 
 %%%%% RULE: splitOnInt
 %  Add the rule(s) for part d below 
+% partially works
+
+% split of an empty list is two empty lists
+splitOnInt([], _, [], []).
+
+% prodeuces list of integers greater than the given value
+splitOnInt([H1|T1], Value, [H2|T2], [_H3|T3]) :- H1 > Value, H2 = H1, splitOnInt(T1, Value, T2, T3).
+
+% 
+% splitOnInt([H1|T1], Value, [H1|T2], T3) :- H1 > Value, splitOnInt(T1, Value, T2, T3).
+
+% produces list of integers smaller than the given value
+splitOnInt([H1|T1], Value, [_H2|T2], [H3|T3]) :- H1 < Value, H3 = H1, splitOnInt(T1, Value, T2, T3).
+
 
 
 %%%%% RULE: incAverage
 % Add the rule(s) for part e below
 
+%% incAverage uses predefined predicates sum to calculate the sumation and length  to find the number of element of the given list to calculate the average
+
+incAverage([H|T], Average, NumElements) :- length([H|T], L), NumElements is L, sum([H|T], S), Average is (S//L).
 
 %%%%% END
 % DO NOT PUT ANY ATOMIC PROPOSITIONS OR LINES BELOW
