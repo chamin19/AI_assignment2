@@ -40,13 +40,13 @@ consecutiveCount([H,W|T],Count) :- not(H=W), consecutiveCount([W|T],Count).
 %%%%% RULE: splitOnInt
 %  Add the rule(s) for part d below 
 
-% anything anonymous/arbitrary will split an empty list into two empty lists
+% base case: anything anonymous/arbitrary will split an empty list into two empty lists
 splitOnInt([], _, [], []).
 
-% returns a list of integers less or equal than the given value in no larger list
+% recursive case: returns a list of integers less or equal than the given value in no larger list
 splitOnInt([H | T], V,[H | LT], NoSmallerList) :- H =< V, splitOnInt(T, V, LT, NoSmallerList).
 
-% returns a list of integers greater than the given value in no larger list
+% recursive case: returns a list of integers greater than the given value in no larger list
 splitOnInt([H | T], V, NoLargerList, [H | ST]) :- not(H = V), H > V, splitOnInt(T, V, NoLargerList, ST).
 
 
