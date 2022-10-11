@@ -56,6 +56,9 @@ splitOnInt([H1|T1], Value, [_H2|T2], [H3|T3]) :- H1 < Value, H3 = H1, splitOnInt
 %%%%% RULE: incAverage
 % Add the rule(s) for part e below
 
+%% incAverage uses predefined predicates sum to calculate the sumation and length  to find the number of element of the given list to calculate the average
+
+incAverage([H|T], Average, NumElements) :- length([H|T], L), NumElements is L, sum([H|T], S), Average is (S//L).
 
 %%%%% END
 % DO NOT PUT ANY ATOMIC PROPOSITIONS OR LINES BELOW
