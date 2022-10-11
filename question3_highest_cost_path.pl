@@ -42,7 +42,7 @@ maxCost(Costs1,Costs2,Costs3,Result), Lists = Result,
 write('\n1 '), write(Costs1), write(' Left: '), write(Left), 
 write(' Middle: '), write(Middle),
 write(' Right: '), write(Right),
-write('\nLists: '),write(Lists), nl.
+write('\nLists: '),write(Lists), nl.  
 
 %%%%% RULE: highestCostPaths
 % Add the rule(s) for highestCostPath below
