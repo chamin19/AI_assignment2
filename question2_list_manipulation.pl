@@ -39,6 +39,19 @@ listMap(MapKeysList,MapValuesList,HList,Value), append([Value], EncodedValue, En
 %%%%% RULE: splitOnInt
 %  Add the rule(s) for part d below 
 
+% split of an empty list is two empty lists
+splitOnInt([], _, [], []).
+
+% prodeuces list of integers greater than the given value
+splitOnInt([H1|T1], Value, [H2|T2], [_H3|T3]) :- H1 > Value, H2 = H1, splitOnInt(T1, Value, T2, T3).
+
+% 
+% splitOnInt([H1|T1], Value, [H1|T2], T3) :- H1 > Value, splitOnInt(T1, Value, T2, T3).
+
+% produces list of integers smaller than the given value
+splitOnInt([H1|T1], Value, [_H2|T2], [H3|T3]) :- H1 < Value, H3 = H1, splitOnInt(T1, Value, T2, T3).
+
+
 
 %%%%% RULE: incAverage
 % Add the rule(s) for part e below
