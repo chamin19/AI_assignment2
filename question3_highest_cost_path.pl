@@ -18,10 +18,9 @@
 findHeadTail([Head | Tail],H,T) :- H = Head, T = Tail.
 
 % finds the maximum path between 3 paths
-maxCost([H1 | L1],[H2 | L2],[H3 | L3],Result) :- 
-(not(L1 = [none]), H1 >= H2, H1 >= H3, Result = [H1 | L1]);
-(not(L2 = [none]), H2 >  H1, H2 >  H3, Result = [H2 | L2]); 
-(not(L3 = [none]), H3 >  H1, H3 >  H2, Result = [H3 | L3]).
+maxCost([H1 | L1],[H2 | L2],[H3 | L3],Result) :- not(L1 = [none]), H1 >= H2, H1 >= H3, Result = [H1 | L1].
+maxCost([H1 | L1],[H2 | L2],[H3 | L3],Result) :- not(L2 = [none]), H2 >  H1, H2 >= H3, Result = [H2 | L2].
+maxCost([H1 | L1],[H2 | L2],[H3 | L3],Result) :- not(L3 = [none]), H3 >  H1, H3 >  H2, Result = [H3 | L3].
 
 % reverses list
 reverseList(L1, L2) :- revAux(L1, [ ], L2).
@@ -59,22 +58,13 @@ maxCost(Lists1,Lists2,Lists3,Result), findHeadTail(Result,H,T), Cost = H, List =
 %
 % You may also add additional tree below for testing in this way, though we will not mark them.
 
-testTree(6, tree3(a,0,none,0,none,0,none)).
-
-
-% works------------------------
-% ?- testTree(1, X), highestCostPath(X, Cost, Path).
 testTree(1, tree3(none,0,none,0,none,0,none)).
-
-% works------------------------
-% ?- testTree(2, X), highestCostPath(X, Cost, Path).
+testTree(6, tree3(a,0,none,0,none,0,none)).
 testTree(2, tree3(a, 1,tree3(b,0,none,0,none,0,none), 2,tree3(c,0,none,0,none,0,none), 3,tree3(d,0,none,0,none,0,none))).
 %          a   
 %    1/   2|   \3
 %    b     c    d
 
-% works------------------------
-% ?- testTree(4, X), highestCostPath(X, Cost, Path).
 testTree(4, 
         tree3(a, 
                 2, tree3(b, 0,none, 1, tree3(e, 0,none, 0,none, 0,none), 0,none),
@@ -88,9 +78,6 @@ testTree(4,
 %      1|       |2      4|  \2
 %       e       h        f   g
 
-
-% works------------------------
-% ?- testTree(3, X), highestCostPath(X, Cost, Path).
 testTree(3, 
         tree3(a, 
                 2, tree3(b, 0,none, 1, tree3(e, 0,none, 0,none, 0,none), 0,none),
