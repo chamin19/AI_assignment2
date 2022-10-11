@@ -23,22 +23,26 @@ maxCost([H1 | L1],[H2 | L2],[H3 | L3],Result) :-
 (not(L2 = [none]), H2 >  H1, H2 >  H3, Result = [H2 | L2]); 
 (not(L3 = [none]), H3 >  H1, H3 >  H2, Result = [H3 | L3]).
 
+% reverses list
+reverseList(L1, L2) :- revAux(L1, [ ], L2).
+revAux([ ], L, L).
+revAux([H|L1], L2, L3) :- revAux(L1, [H|L2], L3).
+
 % recursive program that finds the path with the longest weight 
 costPaths(tree3(Name, 0, none, 0, none, 0, none), Cost, List, Costs, Lists) :- 
-reverse([Name | List], RevList),
+reverseList([Name | List], RevList),
 Costs = [Cost | RevList].
 
 costPaths(tree3(Name, LCost, Left, MCost, Middle, RCost, Right), Cost, List, Costs, Lists) :-
 C1 is LCost + Cost, C2 is MCost + Cost, C3 is RCost + Cost, 
-(Left=none, Costs1=[0,none]   ; costPaths(Left, C1, [ Name | List ], Costs1, Lists1)), write('\n1 '), write(Costs1), 
-write(' Left: '), write(Left), 
+(Left=none, Costs1=[0,none]   ; costPaths(Left, C1, [ Name | List ], Costs1, Lists1)), 
 (Middle=none, Costs2=[0,none] ; costPaths(Middle, C2, [ Name | List ], Costs2, Lists2)), write('\n2 '), write(Costs2),
-write(' Middle: '), write(Middle),
 (Right=none, Costs3=[0,none]  ; costPaths(Right, C3, [ Name | List ], Costs3, Lists3)), write('\n3 '), write(Costs3),
-write(' Right: '), write(Right),
 maxCost(Costs1,Costs2,Costs3,Result), Lists = Result,
-write('\nLists: '),write(Lists), nl.  
-
+write('\n1 '), write(Costs1), write(' Left: '), write(Left), 
+write(' Middle: '), write(Middle),
+write(' Right: '), write(Right),
+write('\nLists: '),write(Lists), nl.
 
 %%%%% RULE: highestCostPaths
 % Add the rule(s) for highestCostPath below
@@ -53,7 +57,6 @@ Lists1 = Costs1, Lists2 = Costs2, Lists3 = Costs3,
 write('\nL1: '), write(Lists1), write('\nL2: '), write(Lists2), write('\nL3: '), write(Lists3),
 maxCost(Lists1,Lists2,Lists3,Result), 
 findHeadTail(Result,H,T), Cost = H, List = T.
-
 
 %%%%% TESTS
 % Below is a test tree, based on the diagram in the assignment
