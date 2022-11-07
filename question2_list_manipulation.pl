@@ -1,16 +1,3 @@
-% Enter the names of your group members below.
-% If you only have 2 group members, leave the last space blank
-%
-%%%%%
-%%%%% NAME: Camillia Amin 
-%%%%% NAME: Rudaba Syed
-%%%%% NAME: Mayra Mussarrat
-%
-% Add the required rules in the corresponding sections. 
-% If you put the rules in the wrong sections, you may lose marks.
-%
-% You may add additional comments as you choose but DO NOT MODIFY the comment lines below
-
 %%%%% RULE: listMap
 % Add the rule(s) for part a below
 
@@ -50,8 +37,6 @@ splitOnInt([H | T], V,[H | LT], NoSmallerList) :- H =< V, splitOnInt(T, V, LT, N
 splitOnInt([H | T], V, NoLargerList, [H | ST]) :- not(H = V), H > V, splitOnInt(T, V, NoLargerList, ST).
 
 
-
-
 %%%%% RULE: incAverage
 % Add the rule(s) for part e below
 
@@ -60,4 +45,3 @@ splitOnInt([H | T], V, NoLargerList, [H | ST]) :- not(H = V), H > V, splitOnInt(
 incAverage([H|T], Average, NumElements) :- length([H|T], L), NumElements is L, sum([H|T], S), Average is S/L.
 
 %%%%% END
-% DO NOT PUT ANY ATOMIC PROPOSITIONS OR LINES BELOW
